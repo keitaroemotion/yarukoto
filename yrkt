@@ -1,0 +1,20 @@
+#! /usr/bin/env ruby
+
+def xxx?(l)
+  /\s*XXX\s.+/ =~ l && l.size < 100
+end
+
+def split(f)
+  f.split("\n")
+rescue
+  []
+end
+
+xxxs = Dir["./**/*"]
+         .select { |f|  File.file?(f)     }
+         .map    { |f|  File.read(f)      }
+         .compact
+         .map    { |f|  split(f).select{ |l| xxx?(l) }.map{|l| l.strip } }
+         .uniq
+
+puts xxxs
